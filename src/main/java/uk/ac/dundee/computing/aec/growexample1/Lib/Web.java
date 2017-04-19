@@ -46,7 +46,7 @@ public final class Web {
         HttpURLConnection hc = null;
         try {
             hc = (HttpURLConnection) videos.openConnection();
-            String login = "UserName:Password";
+            String login = "UserName:Password";  // Contact bram.degraaf@hydrologic.com for details of this login
 
             
             Base64 b = new Base64();
