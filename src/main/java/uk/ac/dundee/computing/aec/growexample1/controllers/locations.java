@@ -34,12 +34,14 @@ public class locations extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        String locations = "http://grow-beta-api.hydronet.com/api/entity/locations/get";
+       System.out.println(locations);
        String body="{\r\n"
                + "\"DataSourceCodes\": [\"Thingful.Connectors.GrowSensors\"]"
                + "\r\n}";
        
         JsonObject obj = new JsonObject();
-        obj = Web.GetJson(locations,body);
+        Web w= new Web();
+        obj = w.GetJson(locations,body);
         try{
              PrintWriter out = response.getWriter();
              out.print(obj);

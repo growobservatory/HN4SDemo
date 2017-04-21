@@ -33,15 +33,16 @@ public class variables extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String projections = "http://grow-beta-api.hydronet.com/api/entity/variables/get";
+        String variables = "http://grow-beta-api.hydronet.com/api/entity/variables/get";
         JsonObject obj = new JsonObject();
-        obj = Web.GetJson(projections);
-        try{
-             PrintWriter out = response.getWriter();
-             out.print(obj);
-        }catch(Exception et){
-            System.out.println("Can not forward "+et);
-            }
+        Web w = new Web();
+        obj = w.GetJson(variables);
+        try {
+            PrintWriter out = response.getWriter();
+            out.print(obj);
+        } catch (Exception et) {
+            System.out.println("Can not forward " + et);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

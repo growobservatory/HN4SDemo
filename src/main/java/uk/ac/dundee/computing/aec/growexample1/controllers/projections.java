@@ -36,13 +36,15 @@ public class projections extends HttpServlet {
             throws ServletException, IOException {
         String projections = "http://grow-beta-api.hydronet.com/api/entity/projections/get";
         JsonObject obj = new JsonObject();
-        obj = Web.GetJson(projections);
-        try{
-             PrintWriter out = response.getWriter();
-             out.print(obj);
-        }catch(Exception et){
-            System.out.println("Can not forward "+et);
-            }
+        Web w = new Web();
+        obj = w.GetJson(projections);
+
+        try {
+            PrintWriter out = response.getWriter();
+            out.print(obj);
+        } catch (Exception et) {
+            System.out.println("Can not forward " + et);
+        }
 
     }
 

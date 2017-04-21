@@ -33,21 +33,23 @@ public class timeseriesinformations extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String locations = "http://grow-beta-api.hydronet.com/api/entity/timeseriesinformations/get";
-       String body="{\n" +
-"	\"LocationIdentifiers\": [\n" +
-"		\"Grow.Thingful#ec14rr5x\"\n" +
-"	]	\n" +
-"}";
-       
+        String timeseriesinformations = "http://grow-beta-api.hydronet.com/api/entity/timeseriesinformations/get";
+        String body = "{\n"
+                + "	\"LocationIdentifiers\": [\n"
+                + "		\"Grow.Thingful#ec14rr5x\"\n"
+                + "	]	\n"
+                + "}";
+
         JsonObject obj = new JsonObject();
-        obj = Web.GetJson(locations,body);
-        try{
-             PrintWriter out = response.getWriter();
-             out.print(obj);
-        }catch(Exception et){
-            System.out.println("Can not forward "+et);
-            }
+        Web w = new Web();
+        obj = w.GetJson(timeseriesinformations, body);
+
+        try {
+            PrintWriter out = response.getWriter();
+            out.print(obj);
+        } catch (Exception et) {
+            System.out.println("Can not forward " + et);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -35,7 +35,9 @@ public class datasourcegroups extends HttpServlet {
             throws ServletException, IOException {
         String projections = "http://grow-beta-api.hydronet.com/api/entity/datasourcegroups/get";
         JsonObject obj = new JsonObject();
-        obj = Web.GetJson(projections);
+        Web w= new Web();
+        obj = w.GetJson(projections);
+
         try{
              PrintWriter out = response.getWriter();
              out.print(obj);

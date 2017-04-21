@@ -34,35 +34,37 @@ public class timeseries extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String locations = "http://grow-beta-api.hydronet.com/api/timeseries/get";
-       String body="{\n" +
-"	\"Readers\": [\n" +
-"		{\n" +
-"			\"DataSourceCode\": \"Thingful.Connectors.GROWSensors\",\n" +
-"			\"Settings\": {\n" +
-"				\"LocationCodes\": [\n" +
-"					\"q2pfqxnz\"\n" +
-"				],\n" +
-"				\"VariableCodes\": [\n" +
-"					\"Thingful.Connectors.GROWSensors.light\"\n" +
-"				],\n" +
-"				\"StartDate\": \"20170329000000\",\n" +
-"				\"EndDate\": \"20170401000000\",\n" +
-"				\"StructureType\": \"TimeSeries\",\n" +
-"				\"CalculationType\": \"None\"\n" +
-"			}\n" +
-"		}\n" +
-"	],\n" +
-"	\"TimeZoneOffset\": \"+0000\"\n" +
-"}";
-       
+        String body = "{\n"
+                + "	\"Readers\": [\n"
+                + "		{\n"
+                + "			\"DataSourceCode\": \"Thingful.Connectors.GROWSensors\",\n"
+                + "			\"Settings\": {\n"
+                + "				\"LocationCodes\": [\n"
+                + "					\"q2pfqxnz\"\n"
+                + "				],\n"
+                + "				\"VariableCodes\": [\n"
+                + "					\"Thingful.Connectors.GROWSensors.light\"\n"
+                + "				],\n"
+                + "				\"StartDate\": \"20170329000000\",\n"
+                + "				\"EndDate\": \"20170401000000\",\n"
+                + "				\"StructureType\": \"TimeSeries\",\n"
+                + "				\"CalculationType\": \"None\"\n"
+                + "			}\n"
+                + "		}\n"
+                + "	],\n"
+                + "	\"TimeZoneOffset\": \"+0000\"\n"
+                + "}";
+
         JsonObject obj = new JsonObject();
-        obj = Web.GetJson(locations,body);
-        try{
-             PrintWriter out = response.getWriter();
-             out.print(obj);
-        }catch(Exception et){
-            System.out.println("Can not forward "+et);
-            }
+        Web w = new Web();
+        obj = w.GetJson(locations, body);
+
+        try {
+            PrintWriter out = response.getWriter();
+            out.print(obj);
+        } catch (Exception et) {
+            System.out.println("Can not forward " + et);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

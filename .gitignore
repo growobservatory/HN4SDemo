@@ -1,1 +1,7 @@
 /src/main/java/Resources/config.properties
+/target/
+/src/main/webapp/WEB-INF/config.properties
+/src/main/java/uk/ac/dundee/computing/aec/growexample1/Lib/config.properties
+/src/main/webapp/META-INF/config.properties
+/src/config.properties
+/src/main/resources/config.properties

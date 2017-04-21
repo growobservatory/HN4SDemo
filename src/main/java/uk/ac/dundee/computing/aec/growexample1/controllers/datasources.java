@@ -33,9 +33,11 @@ public class datasources extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         String projections = "http://grow-beta-api.hydronet.com/api/entity/datasources/get";
+         String datasources = "http://grow-beta-api.hydronet.com/api/entity/datasources/get";
         JsonObject obj = new JsonObject();
-        obj = Web.GetJson(projections);
+        Web w= new Web();
+        obj = w.GetJson(datasources );
+
         try{
              PrintWriter out = response.getWriter();
              out.print(obj);
