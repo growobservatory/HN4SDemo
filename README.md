@@ -6,3 +6,7 @@ How to request data, including requesting data using JSON information in the mai
 See the Web.java class for most of this.
 
 Data is returned as is in JSON format
+
+Note:
+This project needs a username and password saved in a config.properties file
+See the file uk.ac.dundee.computing.aec.growexample1.lib.Web.java for details of where to put this and its format
