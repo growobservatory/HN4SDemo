@@ -17,7 +17,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -45,7 +47,7 @@ public  class Web {
          * 
          * Contact  bram.degraaf@hydrologic.com  for the correct username and password 
          * */
-        System.out.println("Web Contructor");
+      
        InputStream inputStream=null;
         try {
             Properties prop = new Properties();
@@ -59,10 +61,14 @@ public  class Web {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
 
-
+            Set<String> Names= prop.stringPropertyNames();
+            Iterator iter = Names.iterator();
+while (iter.hasNext()) {
+    System.out.println(iter.next());
+}
             // get the property value and print it out
-            String user = prop.getProperty("user");
-            String password = prop.getProperty("password");
+            user = prop.getProperty("user");
+            password = prop.getProperty("password");
 
         } catch (Exception e) {
             System.out.println("Exception: " + e);
