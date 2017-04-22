@@ -8,6 +8,7 @@ package uk.ac.dundee.computing.aec.growexample1.controllers;
 import com.eclipsesource.json.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,12 @@ import uk.ac.dundee.computing.aec.growexample1.Lib.Web;
 @WebServlet(name = "locations", urlPatterns = {"/locations"})
 public class locations extends HttpServlet {
 
+    Web w = null;
+
+    public void init(ServletConfig config) throws ServletException {
+        w = new Web();
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,21 +40,22 @@ public class locations extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String locations = "http://grow-beta-api.hydronet.com/api/entity/locations/get";
-       System.out.println(locations);
-       String body="{\r\n"
-               + "\"DataSourceCodes\": [\"Thingful.Connectors.GrowSensors\"]"
-               + "\r\n}";
-       
+        String locations = "http://grow-beta-api.hydronet.com/api/entity/locations/get";
+        System.out.println(locations);
+        String body = "{\r\n"
+                + "\"DataSourceCodes\": [\"Thingful.Connectors.GrowSensors\"]"
+                + "\r\n}";
+
         JsonObject obj = new JsonObject();
-        Web w= new Web();
-        obj = w.GetJson(locations,body);
-        try{
-             PrintWriter out = response.getWriter();
-             out.print(obj);
-        }catch(Exception et){
-            System.out.println("Can not forward "+et);
-            }
+        if (w != null) {
+            obj = w.GetJson(locations, body);
+        }
+        try {
+            PrintWriter out = response.getWriter();
+            out.print(obj);
+        } catch (Exception et) {
+            System.out.println("Can not forward " + et);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -8,6 +8,7 @@ package uk.ac.dundee.computing.aec.growexample1.controllers;
 import com.eclipsesource.json.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,12 @@ import uk.ac.dundee.computing.aec.growexample1.Lib.Web;
 @WebServlet(name = "timeseries", urlPatterns = {"/timeseries"})
 public class timeseries extends HttpServlet {
 
+    Web w = null;
+
+    public void init(ServletConfig config) throws ServletException {
+        w = new Web();
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,7 +40,7 @@ public class timeseries extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String locations = "http://grow-beta-api.hydronet.com/api/timeseries/get";
+        String timeseries = "http://grow-beta-api.hydronet.com/api/timeseries/get";
         String body = "{\n"
                 + "	\"Readers\": [\n"
                 + "		{\n"
@@ -46,7 +53,7 @@ public class timeseries extends HttpServlet {
                 + "					\"Thingful.Connectors.GROWSensors.light\"\n"
                 + "				],\n"
                 + "				\"StartDate\": \"20170329000000\",\n"
-                + "				\"EndDate\": \"20170401000000\",\n"
+                + "				\"EndDate\": \"20170501000000\",\n"
                 + "				\"StructureType\": \"TimeSeries\",\n"
                 + "				\"CalculationType\": \"None\"\n"
                 + "			}\n"
@@ -56,8 +63,9 @@ public class timeseries extends HttpServlet {
                 + "}";
 
         JsonObject obj = new JsonObject();
-        Web w = new Web();
-        obj = w.GetJson(locations, body);
+        if (w != null) {
+            obj = w.GetJson(timeseries, body);
+        }
 
         try {
             PrintWriter out = response.getWriter();

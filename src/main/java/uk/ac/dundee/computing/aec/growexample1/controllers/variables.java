@@ -8,6 +8,7 @@ package uk.ac.dundee.computing.aec.growexample1.controllers;
 import com.eclipsesource.json.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,12 @@ import uk.ac.dundee.computing.aec.growexample1.Lib.Web;
 @WebServlet(name = "variables", urlPatterns = {"/variables"})
 public class variables extends HttpServlet {
 
+    Web w = null;
+
+    public void init(ServletConfig config) throws ServletException {
+        w = new Web();
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,8 +42,9 @@ public class variables extends HttpServlet {
             throws ServletException, IOException {
         String variables = "http://grow-beta-api.hydronet.com/api/entity/variables/get";
         JsonObject obj = new JsonObject();
-        Web w = new Web();
-        obj = w.GetJson(variables);
+        if (w != null) {
+            obj = w.GetJson(variables);
+        }
         try {
             PrintWriter out = response.getWriter();
             out.print(obj);

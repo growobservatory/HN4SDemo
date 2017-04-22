@@ -8,6 +8,7 @@ package uk.ac.dundee.computing.aec.growexample1.controllers;
 import com.eclipsesource.json.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +22,12 @@ import uk.ac.dundee.computing.aec.growexample1.Lib.Web;
  */
 @WebServlet(name = "timeseriesinformations", urlPatterns = {"/timeseriesinformations"})
 public class timeseriesinformations extends HttpServlet {
+
+    Web w = null;
+
+    public void init(ServletConfig config) throws ServletException {
+        w = new Web();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,8 +48,9 @@ public class timeseriesinformations extends HttpServlet {
                 + "}";
 
         JsonObject obj = new JsonObject();
-        Web w = new Web();
-        obj = w.GetJson(timeseriesinformations, body);
+        if (w != null) {
+            obj = w.GetJson(timeseriesinformations, body);
+        }
 
         try {
             PrintWriter out = response.getWriter();

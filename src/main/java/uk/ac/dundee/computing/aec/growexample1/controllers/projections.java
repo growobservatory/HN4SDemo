@@ -9,6 +9,7 @@ import com.eclipsesource.json.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +24,12 @@ import uk.ac.dundee.computing.aec.growexample1.Lib.Web;
 @WebServlet(name = "projections", urlPatterns = {"/projections"})
 public class projections extends HttpServlet {
 
+    Web w = null;
+
+    public void init(ServletConfig config) throws ServletException {
+        w = new Web();
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,8 +43,9 @@ public class projections extends HttpServlet {
             throws ServletException, IOException {
         String projections = "http://grow-beta-api.hydronet.com/api/entity/projections/get";
         JsonObject obj = new JsonObject();
-        Web w = new Web();
-        obj = w.GetJson(projections);
+        if (w != null) {
+            obj = w.GetJson(projections);
+        }
 
         try {
             PrintWriter out = response.getWriter();

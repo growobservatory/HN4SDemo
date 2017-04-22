@@ -26,34 +26,36 @@ import org.apache.commons.codec.binary.Base64;
  *
  * @author andy
  */
-public  class Web {
+public class Web {
 
     static String RequestBody = null;
     static String user = null;
     static String password = null;
 
     public Web() {
-        /**************************************************
-         * This method expects a config.properties file in the classpath.  See this
+        /**
+         * ************************************************
+         * This class expects a config.properties file in the classpath. See
+         * this
          * http://stackoverflow.com/questions/2161054/where-to-place-and-how-to-read-configuration-resource-files-in-servlet-based-app
-         * 
-         * However, if you are using netbeans and Maven (the  environment used to develop this app
-         * then go to the files tab and look for src.  Under src find main and create a directory
-         * resources.  Place the file there.
-         * 
-         * The file should contain the following 
-         * user=user
-         * password=password
-         * 
-         * Contact  bram.degraaf@hydrologic.com  for the correct username and password 
-         * */
-      
-       InputStream inputStream=null;
+         *
+         * However, if you are using netbeans and Maven (the environment used to
+         * develop this app then go to the files tab and look for src. Under src
+         * find main and create a directory resources. Place the file there.
+         *
+         * The file should contain the following user=user password=password
+         *
+         * Contact bram.degraaf@hydrologic.com for the correct username and
+         * password
+         *
+         */
+
+        InputStream inputStream = null;
         try {
             Properties prop = new Properties();
             String propFileName = "config.properties";
 
-             inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+            inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
             if (inputStream != null) {
                 prop.load(inputStream);
@@ -61,11 +63,11 @@ public  class Web {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
 
-            Set<String> Names= prop.stringPropertyNames();
+            Set<String> Names = prop.stringPropertyNames();
             Iterator iter = Names.iterator();
-while (iter.hasNext()) {
-    System.out.println(iter.next());
-}
+            while (iter.hasNext()) {
+                System.out.println(iter.next());
+            }
             // get the property value and print it out
             user = prop.getProperty("user");
             password = prop.getProperty("password");
@@ -73,15 +75,15 @@ while (iter.hasNext()) {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         } finally {
-            try{
-               inputStream.close();
-            }catch(Exception et){
-                
+            try {
+                inputStream.close();
+            } catch (Exception et) {
+
             }
         }
 
     }
- 
+
     public static JsonObject GetJson(String url, String Body) throws IOException {
         RequestBody = Body;
         JsonObject RespObj = new JsonObject();
@@ -111,7 +113,7 @@ while (iter.hasNext()) {
 
             hc.setDoInput(true);
             hc.setDoOutput(true);
-            //hc.setDoOutput(true);
+
             hc.setUseCaches(false);
             hc.setRequestMethod("POST");
             //hc.setRequestProperty("Accept-Encoding", "gzip, deflate, sdch");
