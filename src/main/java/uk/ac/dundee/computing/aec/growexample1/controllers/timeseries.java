@@ -6,6 +6,7 @@
 package uk.ac.dundee.computing.aec.growexample1.controllers;
 
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletConfig;
@@ -47,7 +48,7 @@ public class timeseries extends HttpServlet {
                 + "			\"DataSourceCode\": \"Thingful.Connectors.GROWSensors\",\n"
                 + "			\"Settings\": {\n"
                 + "				\"LocationCodes\": [\n"
-                + "					\"q2pfqxnz\"\n"
+                + "					\"ymc5dz8s\"\n"
                 + "				],\n"
                 + "				\"VariableCodes\": [\n"
                 + "					\"Thingful.Connectors.GROWSensors.light\"\n"
@@ -62,7 +63,7 @@ public class timeseries extends HttpServlet {
                 + "	\"TimeZoneOffset\": \"+0000\"\n"
                 + "}";
 
-        JsonObject obj = new JsonObject();
+        JsonValue obj=null;
         if (w != null) {
             obj = w.GetJson(timeseries, body);
         }

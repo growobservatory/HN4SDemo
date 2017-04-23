@@ -6,6 +6,7 @@
 package uk.ac.dundee.computing.aec.growexample1.controllers;
 
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletConfig;
@@ -41,7 +42,7 @@ public class datasourcegroups extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String projections = "http://grow-beta-api.hydronet.com/api/entity/datasourcegroups/get";
-        JsonObject obj = new JsonObject();
+        JsonValue obj = null;
         if (w != null) {
             obj = w.GetJson(projections);
         }

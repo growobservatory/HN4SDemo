@@ -5,7 +5,8 @@
  */
 package uk.ac.dundee.computing.aec.growexample1.Lib;
 
-import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonValue;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -32,6 +33,9 @@ public class Web {
     static String user = null;
     static String password = null;
 
+    /**
+     *
+     */
     public Web() {
         /**
          * ************************************************
@@ -63,11 +67,7 @@ public class Web {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
 
-            Set<String> Names = prop.stringPropertyNames();
-            Iterator iter = Names.iterator();
-            while (iter.hasNext()) {
-                System.out.println(iter.next());
-            }
+
             // get the property value and print it out
             user = prop.getProperty("user");
             password = prop.getProperty("password");
@@ -84,26 +84,26 @@ public class Web {
 
     }
 
-    public static JsonObject GetJson(String url, String Body) throws IOException {
+    public static JsonValue GetJson(String url, String Body) throws IOException {
         RequestBody = Body;
-        JsonObject RespObj = new JsonObject();
+        JsonValue RespObj=null;
         RespObj = GetJson(url);
         RequestBody = null;
         return RespObj;
     }
 
-    public static JsonObject GetJson(String url) throws IOException {
-        URL videos = null;
-        JsonObject RespObj = new JsonObject();
+    public static JsonValue GetJson(String url) throws IOException {
+        URL HN4S = null;
+        JsonValue RespObj=null;
         try {
-            videos = new URL(url);
+            HN4S = new URL(url);
         } catch (Exception et) {
             System.out.println("Videos URL is broken");
             return null;
         }
         HttpURLConnection hc = null;
         try {
-            hc = (HttpURLConnection) videos.openConnection();
+            hc = (HttpURLConnection) HN4S.openConnection();
             String login = user + ":" + password;  // Contact bram.degraaf@hydrologic.com for details of this login
 
             Base64 b = new Base64();
@@ -134,7 +134,7 @@ public class Web {
             os.close();
 
         } catch (Exception et) {
-            System.out.println("Can't get reader to videos stream" + et);
+            System.out.println("Can't get reader to HN4S stream" + et);
         }
         int rc = -1;
         try {
@@ -168,16 +168,20 @@ public class Web {
             } catch (Exception et) {
                 System.out.println("Can't read from input " + et);
             }
-            //System.out.println(sBuff);
-            try {
 
-                RespObj = JsonObject.readFrom(response.toString());
+            try {
+                int JsonStart=response.indexOf("{");
+                if (JsonStart>0)
+                   response=response.delete(0,JsonStart);
+                //RespObj = JsonValue.readFrom(response.toString());
+                RespObj=Json.parse(response.toString());
             } catch (Exception et) {
-                System.out.println("Can't create json object from response");
+                System.out.println(response);
+                System.out.println("Can't create json object from response"+et);
                 return null;
             }
 
-        }
+      }
         return RespObj;
 
     }

@@ -6,6 +6,7 @@
 package uk.ac.dundee.computing.aec.growexample1.controllers;
 
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletConfig;
@@ -47,7 +48,7 @@ public class timeseriesinformations extends HttpServlet {
                 + "	]	\n"
                 + "}";
 
-        JsonObject obj = new JsonObject();
+        JsonValue obj = null;
         if (w != null) {
             obj = w.GetJson(timeseriesinformations, body);
         }
