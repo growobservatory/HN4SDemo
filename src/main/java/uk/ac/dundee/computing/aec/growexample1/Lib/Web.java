@@ -170,7 +170,7 @@ public class Web {
             }
 
             try {
-                int JsonStart=response.indexOf("{");
+                int JsonStart=response.indexOf("{"); //Needed in case there are leading characters (in the case of timeseries for instance) that need to be removed in order to parse the json
                 if (JsonStart>0)
                    response=response.delete(0,JsonStart);
                 //RespObj = JsonValue.readFrom(response.toString());
