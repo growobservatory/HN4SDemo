@@ -9,25 +9,31 @@ import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import uk.ac.dundee.computing.aec.growexample1.Lib.Convertors;
 import uk.ac.dundee.computing.aec.growexample1.Lib.Web;
 
 /**
  *
  * @author andycobley
  */
-@WebServlet(name = "timeseries", urlPatterns = {"/timeseries"})
+@WebServlet(name = "timeseries", urlPatterns = {"/timeseries","/timeseries/*"})
 public class timeseries extends HttpServlet {
 
     Web w = null;
+    private HashMap CommandsMap = new HashMap();
 
     public void init(ServletConfig config) throws ServletException {
         w = new Web();
+        CommandsMap.put("JSON", 1);
+        CommandsMap.put("CSV", 2);
+        CommandsMap.put("D3", 3);
     }
 
     /**
@@ -41,8 +47,10 @@ public class timeseries extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String timeseries = "http://grow-beta-api.hydronet.com/api/timeseries/get";
-        String body = "{\n"
+        String body = null;
+        String body1 = "{\n"
                 + "	\"Readers\": [\n"
                 + "		{\n"
                 + "			\"DataSourceCode\": \"Thingful.Connectors.GROWSensors\",\n"
@@ -59,18 +67,62 @@ public class timeseries extends HttpServlet {
                 + "				\"CalculationType\": \"None\"\n"
                 + "			}\n"
                 + "		}\n"
-                + "	],\n"
-                + "	\"TimeZoneOffset\": \"+0000\"\n"
+                + "	],\n";
+        String sCSV = "\"Exporter\": {\n"
+                + "    \"DataFormatCode\": \"hydronet.csv.simple\",\n"
+                + "    \"Settings\": {\n"
+                + "      \"Projection\": {\n"
+                + "        \"Epsg\": \"3857\"\n"
+                + "      }\n"
+                + "    }\n"
+                + "  },";
+
+        String body2 = "	\"TimeZoneOffset\": \"+0000\"\n"
                 + "}";
 
-        JsonValue obj=null;
+        //Split the request path into args.  We then use the HASHMAP to look for keywords 
+        String args[] = Convertors.SplitRequestPath(request);
+        boolean JSON = false;
+        boolean CSV = false;
+        boolean D3 = false;
+        body = body1 + body2;
+        for (int i = 0; i < args.length; i++) {
+            if (CommandsMap.get(args[i]) != null) {
+                switch ((Integer) CommandsMap.get(args[i])) {
+                    case 1:
+                        JSON = true;
+                        body = body1 + body2;
+                        break;
+                    case 2:
+                        CSV = true;
+                        body = body1 + sCSV + body2;
+                        break;
+                    case 3:
+                        D3 = true;
+                        break;
+                    default:
+                        body = body1 + body2;
+                        break;
+
+                }
+            }
+        }
+
+        JsonValue obj = null;
+        String CSVresponse=null;
         if (w != null) {
-            obj = w.GetJson(timeseries, body);
+            if (CSV !=true){ 
+                obj = w.GetJson(timeseries, body);
+            }else
+                CSVresponse=w.GetString(timeseries, body);
         }
 
         try {
             PrintWriter out = response.getWriter();
-            out.print(obj);
+            if (CSV==false)
+               out.print(obj);
+            else
+                out.print(CSVresponse);
         } catch (Exception et) {
             System.out.println("Can not forward " + et);
         }
