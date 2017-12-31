@@ -146,6 +146,7 @@ public class Web {
             return null;
         }
         if (rc == HttpURLConnection.HTTP_UNAUTHORIZED) {
+            System.out.println("UNAUTHORIZED");
             return null;
         }
         if ((rc == HttpURLConnection.HTTP_OK) || (rc == HttpURLConnection.HTTP_CREATED)) {

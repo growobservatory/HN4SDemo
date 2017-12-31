@@ -16,5 +16,15 @@
     <p>Data is returned as is in JSON format</p>
     <p>Note: This project needs a username and password saved in a config.properties file <br>
         See the file uk.ac.dundee.computing.aec.growexample1.lib.Web.java for details of where to put this and its format</p>
+    <p>Example endpoints:
+    <ul>
+        <li><a href="/GrowExample1/locations">Locations</li>
+        <li><a href="/GrowExample1/timeseries">Timeseries</li>
+    </ul>
+        
+        
+    </p>
+    
+    
     </body>
 </html>
