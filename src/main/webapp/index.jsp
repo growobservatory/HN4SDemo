@@ -20,6 +20,7 @@
     <ul>
         <li><a href="/GrowExample1/locations">Locations</li>
         <li><a href="/GrowExample1/timeseries">Timeseries</li>
+        <li><a href="/GrowExample1/projections">Projections</li>
     </ul>
         
         

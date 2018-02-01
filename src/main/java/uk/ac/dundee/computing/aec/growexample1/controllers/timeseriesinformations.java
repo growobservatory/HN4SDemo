@@ -15,13 +15,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import uk.ac.dundee.computing.aec.growexample1.Lib.Convertors;
 import uk.ac.dundee.computing.aec.growexample1.Lib.Web;
 
 /**
  *
  * @author andycobley
  */
-@WebServlet(name = "timeseriesinformations", urlPatterns = {"/timeseriesinformations"})
+@WebServlet(name = "timeseriesinformations", urlPatterns = {"/timeseriesinformations","/timeseriesinformations/*"})
 public class timeseriesinformations extends HttpServlet {
 
     Web w = null;
@@ -42,13 +43,26 @@ public class timeseriesinformations extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String timeseriesinformations = "http://grow-beta-api.hydronet.com/api/entity/timeseriesinformations/get";
-        String body = "{\n"
+         String args[] = Convertors.SplitRequestPath(request);
+         String body = "";
+        if (args.length <=2){ 
+        body ="{\n"
                 + "	\"LocationIdentifiers\": [\n"
-                + "		\"Grow.Thingful#ec14rr5x\"\n"
+                + "		\"Grow.Thingful#c4ztedvc\"\n"
                 + "	]	\n"
                 + "}";
-
+        }
+        else
+        {
+        body = "{\n"
+                + "	\"LocationIdentifiers\": [\n"
+                + "		\"Grow.Thingful#"+args[2]+"\""
+                + "\n"
+                + "	]	\n"
+                + "}";    
+        }   
         JsonValue obj = null;
+        System.out.println("Command"+body);
         if (w != null) {
             obj = w.GetJson(timeseriesinformations, body);
         }
